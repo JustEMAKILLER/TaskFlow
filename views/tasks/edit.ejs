@@ -1,0 +1,12 @@
+<section class="form-page">
+  <a class="back-link" href="/tasks/<%= task._id %>">← Volver al detalle</a>
+  <div class="eyebrow">ACTUALIZAR REGISTRO</div><h1>Editar tarea</h1><p class="muted">Modifica los datos y guarda los cambios.</p>
+  <% if (errors.length) { %><div class="form-errors"><strong>Revisa estos datos:</strong><ul><% errors.forEach(error => { %><li><%= error.msg %></li><% }) %></ul></div><% } %>
+  <form action="/tasks/<%= task._id %>?_method=PUT" method="POST" class="form-card form-stack">
+    <label for="title">Titulo *</label><input id="title" name="title" required minlength="2" maxlength="100" value="<%= (typeof formData !== 'undefined' && formData.title) || task.title %>">
+    <label for="description">Descripcion</label><textarea id="description" name="description" rows="5" maxlength="1000"><%= (typeof formData !== 'undefined' && typeof formData.description !== 'undefined') ? formData.description : (task.description || '') %></textarea>
+    <div class="form-row"><div><label for="category">Categoria</label><input id="category" name="category" maxlength="50" value="<%= (typeof formData !== 'undefined' && formData.category) || task.category || 'General' %>"></div><div><label for="status">Estado</label><select id="status" name="status"><option value="pending" <%= ((typeof formData !== 'undefined' && formData.status) || task.status) === 'pending' ? 'selected' : '' %>>Pendiente</option><option value="in_progress" <%= ((typeof formData !== 'undefined' && formData.status) || task.status) === 'in_progress' ? 'selected' : '' %>>En progreso</option><option value="completed" <%= ((typeof formData !== 'undefined' && formData.status) || task.status) === 'completed' ? 'selected' : '' %>>Completada</option></select></div></div>
+    <label for="dueDate">Fecha limite (opcional)</label><input id="dueDate" name="dueDate" type="date" value="<%= typeof formData !== 'undefined' ? (formData.dueDate || '') : (task.dueDate ? new Date(task.dueDate).toISOString().slice(0, 10) : '') %>">
+    <div class="form-actions"><a class="button button-secondary" href="/tasks/<%= task._id %>">Cancelar</a><button class="button button-primary" type="submit">Guardar cambios</button></div>
+  </form>
+</section>

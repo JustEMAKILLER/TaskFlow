@@ -1,0 +1,12 @@
+<section class="form-page">
+  <a class="back-link" href="/tasks">← Volver a mis tareas</a>
+  <div class="eyebrow">NUEVO REGISTRO</div><h1>Crear tarea</h1><p class="muted">Completa la informacion principal de la tarea.</p>
+  <% if (errors.length) { %><div class="form-errors"><strong>Revisa estos datos:</strong><ul><% errors.forEach(error => { %><li><%= error.msg %></li><% }) %></ul></div><% } %>
+  <form action="/tasks" method="POST" class="form-card form-stack">
+    <label for="title">Titulo *</label><input id="title" name="title" required minlength="2" maxlength="100" value="<%= task.title || '' %>" placeholder="Ej. Preparar el seminario">
+    <label for="description">Descripcion</label><textarea id="description" name="description" rows="5" maxlength="1000" placeholder="Describe lo que necesitas hacer"><%= task.description || '' %></textarea>
+    <div class="form-row"><div><label for="category">Categoria</label><input id="category" name="category" maxlength="50" value="<%= task.category || 'General' %>" placeholder="Estudios, trabajo..."></div><div><label for="status">Estado</label><select id="status" name="status"><option value="pending" <%= !task.status || task.status === 'pending' ? 'selected' : '' %>>Pendiente</option><option value="in_progress" <%= task.status === 'in_progress' ? 'selected' : '' %>>En progreso</option><option value="completed" <%= task.status === 'completed' ? 'selected' : '' %>>Completada</option></select></div></div>
+    <label for="dueDate">Fecha limite (opcional)</label><input id="dueDate" name="dueDate" type="date" value="<%= task.dueDate ? String(task.dueDate).slice(0, 10) : '' %>">
+    <div class="form-actions"><a class="button button-secondary" href="/tasks">Cancelar</a><button class="button button-primary" type="submit">Guardar tarea</button></div>
+  </form>
+</section>

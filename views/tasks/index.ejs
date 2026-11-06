@@ -1,0 +1,40 @@
+<section class="page-heading">
+  <div>
+    <div class="eyebrow"><%= currentUser.role === 'admin' ? 'VISTA GLOBAL' : 'TU ESPACIO DE TRABAJO' %></div>
+    <h1><%= currentUser.role === 'admin' ? 'Todas las tareas' : 'Mis tareas' %></h1>
+    <p class="muted"><%= total %> <%= total === 1 ? 'tarea encontrada' : 'tareas encontradas' %>.</p>
+  </div>
+  <a class="button button-primary" href="/tasks/new">+ Nueva tarea</a>
+</section>
+
+<form class="filter-panel" action="/tasks" method="GET">
+  <div class="filter-search"><label for="q">Buscar</label><input id="q" name="q" type="search" value="<%= search %>" placeholder="Titulo o descripcion"></div>
+  <div><label for="status">Estado</label><select id="status" name="status"><option value="">Todos</option><option value="pending" <%= status === 'pending' ? 'selected' : '' %>>Pendiente</option><option value="in_progress" <%= status === 'in_progress' ? 'selected' : '' %>>En progreso</option><option value="completed" <%= status === 'completed' ? 'selected' : '' %>>Completada</option></select></div>
+  <div><label for="category">Categoria</label><input id="category" name="category" value="<%= category %>" placeholder="Ej. Estudios"></div>
+  <input type="hidden" name="limit" value="<%= limit %>">
+  <button class="button button-secondary" type="submit">Filtrar</button>
+  <a class="clear-filters" href="/tasks">Limpiar</a>
+</form>
+
+<% if (!tasks.length) { %>
+  <div class="empty-state"><div class="empty-icon">✓</div><h2>No hay tareas para mostrar</h2><p class="muted">Crea una tarea o cambia los filtros de busqueda.</p><a class="button button-primary" href="/tasks/new">Crear primera tarea</a></div>
+<% } else { %>
+  <div class="task-grid">
+    <% tasks.forEach(task => { %>
+      <article class="task-card">
+        <div class="task-card-top"><span class="status status-<%= task.status %>"><%= task.status === 'pending' ? 'Pendiente' : task.status === 'in_progress' ? 'En progreso' : 'Completada' %></span><span class="category"><%= task.category %></span></div>
+        <h2><a href="/tasks/<%= task._id %>"><%= task.title %></a></h2>
+        <p class="task-excerpt"><%= task.description || 'Sin descripcion.' %></p>
+        <div class="task-meta"><span>Fecha limite: <%= formatDate(task.dueDate) %></span><% if (currentUser.role === 'admin' && task.owner) { %><span>Propietario: <%= task.owner.email %></span><% } %></div>
+        <div class="task-card-actions"><a href="/tasks/<%= task._id %>">Ver detalle →</a><a href="/tasks/<%= task._id %>/edit">Editar</a></div>
+      </article>
+    <% }) %>
+  </div>
+  <% if (pages > 1) { %>
+    <nav class="pagination" aria-label="Paginacion">
+      <% if (page > 1) { %><a href="/tasks?page=<%= page - 1 %>&<%= filtersQuery %>">← Anterior</a><% } else { %><span class="disabled">← Anterior</span><% } %>
+      <span>Pagina <strong><%= page %></strong> de <strong><%= pages %></strong></span>
+      <% if (page < pages) { %><a href="/tasks?page=<%= page + 1 %>&<%= filtersQuery %>">Siguiente →</a><% } else { %><span class="disabled">Siguiente →</span><% } %>
+    </nav>
+  <% } %>
+<% } %>

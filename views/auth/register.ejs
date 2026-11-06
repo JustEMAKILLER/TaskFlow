@@ -1,0 +1,14 @@
+<section class="auth-card">
+  <div class="eyebrow">EMPIEZA A ORGANIZARTE</div>
+  <h1>Crear cuenta</h1>
+  <p class="muted">Registra un correo y una contrasena para comenzar.</p>
+  <% if (errors.length) { %><div class="form-errors"><strong>Revisa estos datos:</strong><ul><% errors.forEach(error => { %><li><%= error.msg %></li><% }) %></ul></div><% } %>
+  <form action="/register" method="POST" class="form-stack">
+    <label for="email">Correo electronico</label>
+    <input id="email" name="email" type="email" autocomplete="email" required maxlength="120" value="<%= formData.email || '' %>" placeholder="nombre@correo.com">
+    <label for="password">Contrasena</label>
+    <input id="password" name="password" type="password" autocomplete="new-password" required minlength="8" maxlength="72" placeholder="Minimo 8 caracteres">
+    <button class="button button-primary button-full" type="submit">Crear mi cuenta</button>
+  </form>
+  <p class="auth-bottom">¿Ya tienes una cuenta? <a href="/login">Inicia sesion</a>.</p>
+</section>

@@ -1,0 +1,14 @@
+<section class="auth-card">
+  <div class="eyebrow">BIENVENIDO DE NUEVO</div>
+  <h1>Iniciar sesion</h1>
+  <p class="muted">Accede para consultar y administrar tus tareas.</p>
+  <% if (errors.length) { %><div class="form-errors"><strong>Revisa estos datos:</strong><ul><% errors.forEach(error => { %><li><%= error.msg %></li><% }) %></ul></div><% } %>
+  <form action="/login" method="POST" class="form-stack">
+    <label for="email">Correo electronico</label>
+    <input id="email" name="email" type="email" autocomplete="email" required value="<%= formData.email || '' %>" placeholder="nombre@correo.com">
+    <label for="password">Contrasena</label>
+    <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Tu contrasena">
+    <button class="button button-primary button-full" type="submit">Entrar</button>
+  </form>
+  <p class="auth-bottom">¿Todavia no tienes cuenta? <a href="/register">Registrate</a>.</p>
+</section>

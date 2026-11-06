@@ -1,0 +1,10 @@
+<section class="detail-page">
+  <a class="back-link" href="/tasks">← Volver al listado</a>
+  <article class="detail-card">
+    <div class="detail-top"><span class="status status-<%= task.status %>"><%= task.status === 'pending' ? 'Pendiente' : task.status === 'in_progress' ? 'En progreso' : 'Completada' %></span><span class="category"><%= task.category %></span></div>
+    <h1><%= task.title %></h1>
+    <p class="detail-description"><%= task.description || 'Esta tarea no tiene una descripcion.' %></p>
+    <dl class="detail-info"><div><dt>Fecha limite</dt><dd><%= formatDate(task.dueDate) %></dd></div><div><dt>Creada</dt><dd><%= formatDate(task.createdAt) %></dd></div><% if (task.owner) { %><div><dt>Propietario</dt><dd><%= task.owner.email %></dd></div><% } %></dl>
+    <div class="form-actions"><a class="button button-secondary" href="/tasks/<%= task._id %>/edit">Editar tarea</a><form action="/tasks/<%= task._id %>?_method=DELETE" method="POST" data-confirm="¿Seguro que deseas eliminar esta tarea?"><button class="button button-danger" type="submit">Eliminar</button></form></div>
+  </article>
+</section>

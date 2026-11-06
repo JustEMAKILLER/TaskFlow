@@ -1,0 +1,17 @@
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="/tasks"><span class="brand-mark">T</span><span>TaskFlow</span></a>
+    <nav class="main-nav" aria-label="Navegacion principal">
+      <% if (currentUser) { %>
+        <a href="/tasks">Tareas</a>
+        <a href="/tasks/new">Nueva tarea</a>
+        <% if (currentUser.role === 'admin') { %><a href="/admin">Administracion</a><% } %>
+        <span class="nav-user"><%= currentUser.email %></span>
+        <form action="/logout" method="POST" class="logout-form"><button class="nav-button" type="submit">Salir</button></form>
+      <% } else { %>
+        <a href="/login">Iniciar sesion</a>
+        <a class="nav-cta" href="/register">Crear cuenta</a>
+      <% } %>
+    </nav>
+  </div>
+</header>
